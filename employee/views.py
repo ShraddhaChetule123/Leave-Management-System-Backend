@@ -145,3 +145,17 @@ def make_manager(request):
             'message':str(e)
         }
     return Response(response, status=response['code'])
+
+
+@api_view(['GET'])
+def leave_counts(request):
+    try:
+        token = request.META['HTTP_AUTHORIZATION']
+        response = services.leave_counts(token)
+    except KeyError as e:
+        response = {
+            'status': False,
+            'message': 'Invalid token, Key Error',
+            'code': status.HTTP_406_NOT_ACCEPTABLE
+        }
+    return Response(response, status=response['code'])

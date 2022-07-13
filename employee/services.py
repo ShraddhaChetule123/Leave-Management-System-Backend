@@ -1,3 +1,4 @@
+from urllib import response
 from rest_framework import status
 from core.models import AuthToken, Users
 from leaves.models import LeaveType
@@ -354,3 +355,33 @@ def make_manager(token, data):
             'message': str(e)
         }   
     return response 
+
+
+def leave_counts(token):
+    try:
+        token = AuthToken.objects.get(token=token)
+        if Employee.objects.filter(user_id=token.users).exists():
+            emp = Employee.objects.get(user_id=token.users)
+            data = {
+                'available': emp.total_leaves,
+                'assigned': 21
+            }
+            response = {
+                'status':True,
+                'message':'Employee exist with leaves',
+                'code':status.HTTP_200_OK,
+                'data':data
+            }
+        else:
+            response = {
+                'status':True,
+                'message':'No Employee',
+                'code':status.HTTP_204_NO_CONTENT
+            }
+    except Exception as e:
+        response = {
+            'status':False,
+            'message':str(e),
+            'code':status.HTTP_400_BAD_REQUEST
+        }
+    return response

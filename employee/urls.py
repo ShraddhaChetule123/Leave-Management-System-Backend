@@ -8,5 +8,6 @@ urlpatterns = [
     path('manager', get_manager),
     path('department', get_department),
     path('hardware', get_hardware),
-    path('makemanager', make_manager)
+    path('makemanager', make_manager),
+    path('leave_counts', leave_counts)
 ]
